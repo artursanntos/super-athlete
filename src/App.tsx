@@ -1,17 +1,24 @@
-import { useState } from 'react'
-
-
 import './App.css'
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/Home'
 import Header from './components/Header'
+import Cart from './pages/Cart';
+import { CarrinhoContextProvider } from './contexts/CarrinhoContext';
 
-function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-        <Header/>
-    </>
-  )
+export default function App() {
+
+    return (
+        <CarrinhoContextProvider>
+            <div className=''>  
+                <Header/>
+                <Routes>
+                    <Route path='/' element={<Home/>}/>
+                    <Route path='/carrinho' element={<Cart/>}></Route>
+                </Routes>
+            </div>
+        </CarrinhoContextProvider>
+    )
 }
 
-export default App
+
