@@ -20,6 +20,7 @@ Para executar, você deverá executar os seguintes comandos
 
 ```npm run dev```
 
-No caso da primeira entrega, em que não há backend, foi usada uma **mock api** para simular um backend, assim, para executá-la, em outro terminal execute o seguinte comando:
+No caso da primeira entrega, em que não há backend, foi usada uma **mock api** para simular um backend.
+Para que as informações dos produtos sejam enviadas, você também deve executar o seguinte comando:
 
 ```npm startdb```
