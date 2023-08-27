@@ -1,7 +1,9 @@
 export default function Footer() {
     return(
         <>
-            <h2>Footer</h2>
+            <footer className="bg-cinza-800 border-2 border-t-orange-600 text-white m-0">
+                nada
+            </footer>
         </>
     )
 }

@@ -10,7 +10,12 @@ export default {
                 'righteous': ['Righteous'],
                 'condensed': ['Roboto Condensed'],
                 'grotesk'  : ['Space Grotesk'],
-            }
+            },
+            colors: {
+                'cinza': {
+                    '800': '#202124'
+                }
+            },
         },
     },
     plugins: [],

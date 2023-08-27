@@ -23,15 +23,16 @@ export function CarrinhoContextProvider({ children }: CarrinhoProviderProps) {
     const [carrinho, setCarrinho] = useState<Produto[]>([])
     const [montante, setMontante] = useState<number>(0)
 
-    useEffect (() => {
-        setMontante(0);
-        for (var produto of carrinho) {
-            setMontante(montante + produto.preco);
+    useEffect(() => {
+        let totalMontante = 0;
+    
+        for (const produto of carrinho) {
+            totalMontante += produto.preco;
         }
-        console.log(carrinho);
-        console.log(montante);
-        
-    }, [carrinho])
+    
+        setMontante(totalMontante);
+    }, [carrinho]);
+    
 
     // Ainda falta o local storage
     return (
