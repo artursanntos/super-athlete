@@ -1,20 +1,39 @@
-import logo from '../assets/muscle.png'
-import cart from '../assets/cart.svg'
+import logoWhite from '../assets/muscle-white.png'
+import cartWhite from '../assets/cart-white.png'
 import { Link } from 'react-router-dom'
+import { CarrinhoContext } from '../contexts/CarrinhoContext'
+import { useContext, useEffect, useState } from 'react'
 
 export default function Header() {
+
+    const { carrinho } = useContext(CarrinhoContext)
+
+    const [isEmpty, setIsEmpty] = useState(carrinho.length == 0)
+
+    useEffect(() => {
+        setIsEmpty(carrinho.length==0)
+    }, [carrinho])
+
     return (
         <>
-            <header className='bg-white w-screen h-24 flex items-center px-20 border-b justify-between border-gray-200'>
+            <header className='bg-black sticky top-0 w-screen h-24 flex items-center px-20  justify-between z-50 max-md:px-10 max-md:relative'>
 
                 <Link to='/'>
                     <div className='flex items-center'>
-                        <img src={logo} alt="Logo" className='w-16'/>
-                        <p className='text-black text-4xl font-bold ml-4 font-righteous'>SUPER ATHLETE</p>
+                        <img src={logoWhite} alt="Logo" className='w-16'/>
+                        <p className='text-white text-4xl font-bold ml-4 font-righteous max-md:text-xl'>SUPER ATHLETE</p>
                     </div>
                 </Link>
                 <Link to='/carrinho'>
-                    <img src={cart} alt="Logo" className='w-14 hover:scale-105 duration-200 transition ease-in-out cursor-pointer'/>
+                    <div className='relative hover:scale-105 duration-200 transition ease-in-out cursor-pointer'>
+                        <img src={cartWhite} alt="Logo" className='w-14 '/>
+                        {isEmpty ? (
+                            <></>
+                        ) : (
+                            <span className='absolute top-0 right-0 bg-white rounded-full h-6 w-6 flex justify-center items-center text-black text-sm'>{carrinho.length}</span>
+                        )}
+                    </div>
+                    
                 </Link>
                 
 

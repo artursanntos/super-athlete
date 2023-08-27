@@ -1,80 +1,95 @@
+import { useContext, useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
+import { CarrinhoContext } from "../contexts/CarrinhoContext";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
+import CoverImage from "../components/CoverImage";
 
+interface productType {
+    "id": number;
+    "nome": string;
+    "preco": number;
+    "imagem": string;
+}
 
 export default function Home() {
 
-    const produtos = [
+    const [produtos, setProdutos] = useState<productType[]>([
         {
-            id: 0,
-            nome: "Creatina Max Titanium 300g",
-            preco: 130.75,
-            imagem: "src/assets/creatina-max.png"
-        },
-        {
-            id: 1,
-            nome: "Camisa Sport Recife 2023",
-            preco: 149.99,
-            imagem: "src/assets/sport_away.webp"
-        },
-        {
-            id: 2,
-            nome: "Pré-Treino Hórus 300g",
-            preco: 159.90,
-            imagem: "src/assets/horus.png"
-        },
-        {
-            id: 3,
-            nome: "Halter 3Kg Pintado - Pintura anti-risco",
-            preco: 69.99,
-            imagem: "src/assets/halter_3kg.webp"
-        },
-        {
-            id: 4,
-            nome: "Luvas para Musculação Neoprene",
-            preco: 49.99,
-            imagem: "src/assets/luvas.webp"
-        },
-        {
-            id: 5,
-            nome: "Estação de Musculação Gx4l - Kikos",
-            preco: 15029.82,
-            imagem: "src/assets/estacao_musculacao.webp"
-        },
-        {
-            id: 6,
-            nome: "Proteções de pulso para musculação - WristWrap",
-            preco: 56.99,
-            imagem: "src/assets/wristwrap.webp"
-        },
-        {
-            id: 7,
-            nome: "Whey 100% Pure - IntegralMedica",
-            preco: 105.89,
-            imagem: "src/assets/whey100.png"
-        },
-        {
-            id: 8,
-            nome: "Headphone JBL Tune 520BT",
-            preco: 299.00,
-            imagem: "src/assets/headphone.webp"
-        },
-        {
-            id: 9,
-            nome: "O Suco",
-            preco: 1500.00,
-            imagem: "src/assets/suco.png"
-        },
-    ]
+            "id": 0,
+            "nome": "",
+            "preco": 0,
+            "imagem": ""
+        }
+    ]);
+
+    const { carrinho, productAdded, setProductAdded } = useContext(CarrinhoContext)
+
+    const handleAddProductToCartToast = () => {
+        if (productAdded) {
+            toast.success('Produto adicionado ao carrinho!', {
+                position: "bottom-center",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
+            setProductAdded(false)
+        }
+    }
+
+    useEffect(() => {
+        handleAddProductToCartToast();
+    }, [carrinho])
+
+    useEffect(() => {
+        fetch('http://localhost:5000/promotions')
+        .then((data) => data.json())
+        .then((productsData) => {
+            setProdutos(productsData);
+        });
+    }, []);
 
     return (
         <>
-            <img src="src\assets\athlete.jpg" alt="Atleta" className="w-screen"/>
+            <Carousel autoPlay infiniteLoop interval={3000} transitionTime={500} showThumbs={false} showStatus={false} swipeable={true}>
+                <div>
+                    <CoverImage path="src\assets\athlete.jpg" />
+                </div>
+                <div>
+                    <CoverImage path="src\assets\gym.jpg"/>
+                </div>
+                <div>
+                    <CoverImage path="src\assets\weights.webp"/>
+                </div>
+                <div>
+                    <CoverImage path="src\assets\max-titanium-1.webp"/>
+                </div>
+            </Carousel>
+            
             <div className="py-5 flex flex-wrap justify-center">
                 {produtos.map((produto) => (
-                    <ProductCard nome={produto.nome} preco={produto.preco} imagem={produto.imagem} id={produto.id}/>
+                    <ProductCard nome={produto.nome} preco={produto.preco} imagem={produto.imagem}/>
                 ))}
-                
             </div>
+            <ToastContainer
+                position="bottom-center"
+                autoClose={1000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                />
+           
         </>
     )
 }
