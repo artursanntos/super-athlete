@@ -27,7 +27,11 @@ export default function Header() {
                 <Link to='/carrinho'>
                     <div className='relative hover:scale-105 duration-200 transition ease-in-out cursor-pointer'>
                         <img src={cartWhite} alt="Logo" className='w-14 '/>
-                        
+                        {isEmpty ? (
+                            <></>
+                        ) : (
+                            <span className='absolute top-0 right-0 bg-white rounded-full h-6 w-6 flex justify-center items-center text-black text-sm'>{carrinho.length}</span>
+                        )}
                     </div>
                     
                 </Link>
